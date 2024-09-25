@@ -2,24 +2,16 @@ syntax = "proto3";
 
 package aipool;
 
-// Import Google's timestamp if necessary
-import "google/protobuf/timestamp.proto";
-
-// Message from ReactJS client to request AI training/prediction
 message AIRequest {
-    string input_data = 1;          // Input data for AI model (e.g., JSON or base64 encoded data)
+    string input_data = 1;  // Input từ gRPC client (message của người dùng)
 }
 
-// Response back to ReactJS client with the result of AI processing
 message AIResponse {
-    bool success = 1;               // Whether the request was successful
-    string message = 2;             // Result message or any errors
-    string output_data = 3;         // Output data (e.g., predictions, accuracy, etc.)
-    google.protobuf.Timestamp response_time = 4; // Timestamp when the response is generated
+    bool success = 1;               // Xác định thành công
+    string message = 2;             // Kết quả hoặc lỗi
+    string output_data = 3;         // Dữ liệu phản hồi từ chatbot
 }
 
-// gRPC Service that the Gateway (Golang) will call
 service AIService {
-    // AI Service will receive training/prediction requests from Gateway
-    rpc ProcessAIRequest(AIRequest) returns (AIResponse);
+    rpc ProcessAIRequest (AIRequest) returns (AIResponse);
 }

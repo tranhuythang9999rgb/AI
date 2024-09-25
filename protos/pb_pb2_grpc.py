@@ -5,8 +5,7 @@ import grpc
 from . import pb_pb2 as pb__pb2
 
 class AIServiceStub(object):
-    """gRPC Service that the Gateway (Golang) will call
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -22,12 +21,10 @@ class AIServiceStub(object):
 
 
 class AIServiceServicer(object):
-    """gRPC Service that the Gateway (Golang) will call
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def ProcessAIRequest(self, request, context):
-        """AI Service will receive training/prediction requests from Gateway
-        """
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -48,8 +45,7 @@ def add_AIServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class AIService(object):
-    """gRPC Service that the Gateway (Golang) will call
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def ProcessAIRequest(request,

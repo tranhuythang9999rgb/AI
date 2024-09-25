@@ -4,12 +4,13 @@ from nltk.stem import WordNetLemmatizer
 import numpy as np
 import pickle
 
+# Tải các gói NLTK cần thiết
 nltk.download('punkt')
 nltk.download('wordnet')
 
 lemmatizer = WordNetLemmatizer()
 
-# Đọc dữ liệu
+# Đọc dữ liệu từ file JSON
 with open('/home/huythang/PycharmProjects/pythonProject/data/intents.json') as file:
     data = json.load(file)
 
@@ -19,14 +20,16 @@ documents = []
 ignore_words = ['?', '!', '.']
 
 # Tokenize và lemmatize dữ liệu
-for intent in data['intents']:
-    for pattern in intent['patterns']:
+for category, intents in data.items():  # Duyệt qua từng nhóm trong dữ liệu
+    for intent in intents:
+        pattern = intent['question']
         word_list = nltk.word_tokenize(pattern)
         words.extend(word_list)
-        documents.append((word_list, intent['tag']))
-        if intent['tag'] not in classes:
-            classes.append(intent['tag'])
+        documents.append((word_list, intent['intent']))
+        if intent['intent'] not in classes:
+            classes.append(intent['intent'])
 
+# Chuẩn hóa từ
 words = [lemmatizer.lemmatize(w.lower()) for w in words if w not in ignore_words]
 words = sorted(list(set(words)))
 
@@ -35,6 +38,7 @@ classes = sorted(list(set(classes)))
 training = []
 output_empty = [0] * len(classes)
 
+# Tạo bag of words và đầu ra cho các mẫu
 for doc in documents:
     bag = []
     word_patterns = doc[0]
@@ -60,6 +64,3 @@ with open('training_data.pickle', 'wb') as f:
     pickle.dump((words, classes, train_x, train_y), f)
 
 print("Dữ liệu đã được chuẩn bị và lưu vào 'training_data.pickle'")
-
-#File 'training_data.pickle' được sử dụng để lưu trữ dữ liệu đã được chuẩn bị cho việc huấn luyện mô hình chatbot.
-# Đây là một cách để lưu trữ và truyền dữ liệu giữa các giai đoạn khác nhau của quá trình xây dựng chatbot
