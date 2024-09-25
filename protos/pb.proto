@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package aipool;
+
+// Import Google's timestamp if necessary
+import "google/protobuf/timestamp.proto";
+
+// Message from ReactJS client to request AI training/prediction
+message AIRequest {
+    string model_name = 1;          // Name of the AI model to use (for training/prediction)
+    string request_type = 2;        // Type of request ("train", "predict", etc.)
+    string input_data = 3;          // Input data for AI model (e.g., JSON or base64 encoded data)
+    google.protobuf.Timestamp request_time = 4; // Timestamp of the request
+}
+
+// Response back to ReactJS client with the result of AI processing
+message AIResponse {
+    bool success = 1;               // Whether the request was successful
+    string message = 2;             // Result message or any errors
+    string output_data = 3;         // Output data (e.g., predictions, accuracy, etc.)
+    google.protobuf.Timestamp response_time = 4; // Timestamp when the response is generated
+}
+
+// Database query/request for storing or fetching data (used by AI Service)
+message DatabaseQuery {
+    string query_type = 1;          // Type of query (e.g., "insert", "fetch")
+    string query_data = 2;          // Data to be queried (e.g., model info, training result, etc.)
+}
+
+// Database query result/response for AI Service
+message DatabaseResult {
+    bool success = 1;               // Whether the query was successful
+    string message = 2;             // Result message or any errors
+    string result_data = 3;         // Data returned from the database
+}
+
+// gRPC Service that the Gateway (Golang) will call
+service AIService {
+    // AI Service will receive training/prediction requests from Gateway
+    rpc ProcessAIRequest(AIRequest) returns (AIResponse);
+
+    // AI Service can query the database through this RPC
+    rpc QueryDatabase(DatabaseQuery) returns (DatabaseResult);
+}
+
+// gRPC service for the Gateway (Golang)
+service AIGatewayService {
+    // Gateway will receive AI requests from ReactJS client via WebSocket and pass to AIService
+    rpc ForwardAIRequest(AIRequest) returns (AIResponse);
+}
