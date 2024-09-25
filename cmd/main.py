@@ -11,7 +11,7 @@ nltk.download('wordnet')
 lemmatizer = WordNetLemmatizer()
 
 # Load the trained model
-model = load_model('/home/huythang/PycharmProjects/pythonProject/data/chatbot_model.h5')
+model = load_model('/home/huythang/PycharmProjects/pythonProject/train/chatbot_model.h5')
 
 # Load intents file
 with open('/home/huythang/PycharmProjects/pythonProject/data/intents.json') as file:

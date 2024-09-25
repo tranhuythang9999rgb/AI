@@ -23,3 +23,54 @@ Metric: Accuracy
 
 
 Preprocessing: Mô hình sử dụng các kỹ thuật xử lý ngôn ngữ tự nhiên (NLP) cơ bản như tokenization và lemmatization (sử dụng NLTK) để chuẩn bị dữ liệu đầu vào.
+
+
+```
+gen .proto python:
+
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. pb.proto
+```
+
+``` 
+gen code golang
+
+protoc --go_out=. --go-grpc_out=. pb.proto
+```
+
+```commandline
+# Cài đặt các công cụ cần thiết
+sudo apt install -y autoconf automake libtool curl make g++ unzip
+
+# Tải mã nguồn
+wget https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protobuf-all-21.12.zip
+
+# Giải nén và cài đặt
+unzip protobuf-all-21.12.zip
+cd protobuf-21.12
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+sudo ldconfig
+
+```
+
+```commandline
+go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.0
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2.0
+
+```
+
+```commandline
+protoc --version
+protoc-gen-go --version
+protoc-gen-go-grpc --version
+
+```
+
+```commandline
+sudo apt update
+sudo apt install -y protobuf-compiler
+
+```
